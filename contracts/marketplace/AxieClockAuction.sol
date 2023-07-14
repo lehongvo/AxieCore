@@ -43,7 +43,7 @@ contract AxieClockAuction is Ownable, Pausable {
         address indexed _nftAddress,
         uint256 indexed _tokenId,
         uint256 _totalPrice,
-        address _winner
+        address _winnerclear
     );
 
     event AuctionCancelled(

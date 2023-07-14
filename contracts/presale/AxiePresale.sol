@@ -10,15 +10,17 @@ contract AxiePresale is Ownable, Pausable {
     using SafeMath for uint256;
 
     // No Axies can be adopted after this end date: Friday, March 16, 2018 11:59:59 PM GMT.
-    uint256 public constant PRESALE_END_TIMESTAMP = 1521244799;
+    uint256 public constant PRESALE_END_TIMESTAMP = 1699493300;
 
     uint8 public constant CLASS_BEAST = 0;
     uint8 public constant CLASS_AQUATIC = 2;
     uint8 public constant CLASS_PLANT = 4;
 
-    uint256 public constant INITIAL_PRICE_INCREMENT = 0.0016 ether;
-    uint256 public constant INITIAL_PRICE = INITIAL_PRICE_INCREMENT;
-    uint256 public constant REF_CREDITS_PER_AXIE = 5;
+    uint256 public INITIAL_PRICE_INCREMENT = 0.000016 ether;
+    uint256 public a;
+
+    uint256 public INITIAL_PRICE = INITIAL_PRICE_INCREMENT;
+    uint256 public REF_CREDITS_PER_AXIE = 5;
 
     mapping(uint8 => uint256) public currentPrices;
     mapping(uint8 => uint256) public priceIncrements;
@@ -79,11 +81,14 @@ contract AxiePresale is Ownable, Pausable {
         uint256 plantQuantity,
         address referrer
     ) public payable whenNotPaused {
-        require(block.timestamp <= PRESALE_END_TIMESTAMP);
+        require(
+            block.timestamp <= PRESALE_END_TIMESTAMP,
+            "block.timestamp <= PRESALE_END_TIMESTAMP"
+        );
 
-        require(beastQuantity <= 3);
-        require(aquaticQuantity <= 3);
-        require(plantQuantity <= 3);
+        require(beastQuantity <= 3, "beastQuantity <= 3");
+        require(aquaticQuantity <= 3, "aquaticQuantity <= 3");
+        require(plantQuantity <= 3, "plantQuantity <= 3");
 
         address adopter = msg.sender;
         address actualReferrer = address(0);
@@ -104,7 +109,7 @@ contract AxiePresale is Ownable, Pausable {
                 actualReferrer
             );
 
-            require(value >= price);
+            require(value >= price, "1: value >= price");
             value -= price;
         }
 
@@ -116,7 +121,7 @@ contract AxiePresale is Ownable, Pausable {
                 actualReferrer
             );
 
-            require(value >= price);
+            require(value >= price, "2: value >= price");
             value -= price;
         }
 
@@ -128,13 +133,14 @@ contract AxiePresale is Ownable, Pausable {
                 actualReferrer
             );
 
-            require(value >= price);
+            require(value >= price, "3: value >= price");
             value -= price;
         }
 
         payable(msg.sender).transfer(value);
 
         // The current referral is ignored if the referrer's address is 0x0.
+
         if (actualReferrer != address(0)) {
             uint256 numCredit = referralCredits[actualReferrer]
                 .add(beastQuantity)
