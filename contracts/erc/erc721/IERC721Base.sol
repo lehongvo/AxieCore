@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.0;
 
 /// @title ERC-721 Non-Fungible Token Standard
 /// @dev See https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md
@@ -66,7 +66,7 @@ pragma solidity ^0.8.9;
         address _from,
         address _to,
         uint256 _tokenId,
-        bytes _data
+        bytes memory _data
     ) external payable;
 
     /// @notice Transfers the ownership of an NFT from one address to another address

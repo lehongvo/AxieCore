@@ -3,7 +3,7 @@
 pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "./SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract AxiePresale is Ownable, Pausable {
@@ -283,5 +283,13 @@ contract AxiePresale is Ownable, Pausable {
 
             emit AdoptedAxiesRedeemed(receiver, clazz, quantity);
         }
+    }
+
+    function pause() public onlyOwner {
+        _pause();
+    }
+
+    function unpause() public onlyOwner {
+        _unpause();
     }
 }
